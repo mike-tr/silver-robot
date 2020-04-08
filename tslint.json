@@ -5,13 +5,11 @@
     "tslint-config-prettier"
   ],
   "rules": {
-    "ordered-imports": [
-      false
-    ],
-    "object-literal-sort-keys": [
-      false
-    ],
+    "no-empty": false,
+    "ordered-imports": false,
+    "object-literal-sort-keys": false,
     "forin": false,
+    "prefer-const": false,
     "interface-name": [
       true,
       "never-prefix"
