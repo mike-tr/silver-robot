@@ -25,6 +25,8 @@ export class CreepLogister {
 
             if (!memory.working) {
                 SVariables.rooms[memory.room].idlesByRole[memory.role].push(Game.creeps[name]);
+            } else {
+
             }
         }
     }

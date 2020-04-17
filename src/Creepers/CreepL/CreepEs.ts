@@ -1,3 +1,6 @@
+import { SVariables } from "Global/SVariables";
+import { roles } from "HiveMind/Spawner/UnitTamplates";
+
 export class CreepEs {
     public static createMemory(creep: Creep) {
         let bodyParts: any = {};
@@ -10,22 +13,19 @@ export class CreepEs {
         });
 
         let creepM: CreepMemory = {
-            task: {
-                targetsID: [],
-                taskID: 0,
-            },
+            task: {} as Task<"none">,
             role: "none",
             room: creep.room.name,
             working: false,
         };
         if (bodyParts.attack > 0) {
-            creepM.role = "attacker";
+            creepM.role = roles.attacker;
         } else if (bodyParts.ranged_attack > 0) {
-            creepM.role = "ranger";
+            creepM.role = roles.ranger;
         } else if (bodyParts.work > 0) {
-            creepM.role = "worker"
+            creepM.role = roles.worker;
         } else if (bodyParts.carry > 0) {
-            creepM.role = "transferer";
+            creepM.role = roles.transferer;
         }
         Memory.creeps[creep.name] = creepM;
     }
