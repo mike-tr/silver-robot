@@ -1,7 +1,7 @@
 import { Hive } from "HiveMind/Hive";
 import { CreepLogister } from "Creepers/CreepLogister";
 import { Dictionary } from "lodash";
-import { RoomData } from "Global/RoomExtra";
+import { RoomData } from "Global/Room/RoomExtra";
 import { TaskRunner } from "Tasks/TaskRunner";
 
 export const tasks = {

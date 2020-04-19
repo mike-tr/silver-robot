@@ -1,7 +1,3 @@
-export const tasks = {
-
-}
-
 export class TaskRunner {
     private implementations: { [name: string]: TaskImplementation<any> } = {};
 

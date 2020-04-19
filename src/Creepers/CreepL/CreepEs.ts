@@ -12,10 +12,16 @@ export class CreepEs {
             }
         });
 
+        let rname = creep.room.controller && creep.room.controller.my ? creep.room.name : undefined;
+        if (rname == undefined) {
+            creep.suicide();
+            return;
+        }
+
         let creepM: CreepMemory = {
             task: {} as Task<"none">,
             role: "none",
-            room: creep.room.name,
+            room: rname,
             working: false,
         };
         if (bodyParts.attack > 0) {
@@ -28,5 +34,7 @@ export class CreepEs {
             creepM.role = roles.transferer;
         }
         Memory.creeps[creep.name] = creepM;
+
+        creep.room.memory.creeps.push(creep.name);
     }
 }

@@ -5,15 +5,17 @@ export interface HarvestTask extends Task<"harvest"> {
     readonly stopWhenFull: boolean,
 }
 
+export interface HarvestInitializer extends TaskInitializer<HarvestTask> {
+    sourceId: string,
+    stopWhenFull: boolean,
+}
+
 export const HarvestImplementation: TaskImplementation<HarvestTask> = {
     name: "harvest",
-    createTask(args: {
-        source: string,
-        stopWhenFull: boolean,
-    }) {
+    createTask(args: HarvestInitializer) {
         return {
             workerType: roles.miner,
-            sourceId: args.source,
+            sourceId: args.sourceId,
             stopWhenFull: args.stopWhenFull,
             type: this.name,
         }

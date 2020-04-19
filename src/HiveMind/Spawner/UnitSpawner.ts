@@ -1,3 +1,5 @@
+import { Spawner } from "./Spawner";
+
 export function bodyCost(body: BodyPartConstant[]) {
     return body.reduce((cost: number, part: BodyPartConstant) => {
         return cost + BODYPART_COST[part];

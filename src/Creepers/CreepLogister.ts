@@ -16,11 +16,14 @@ export class CreepLogister {
 
     public getCreepsState() {
         for (const name in Memory.creeps) {
+            const memory = Memory.creeps[name];
             if (!(name in Game.creeps)) {
                 delete Memory.creeps[name];
+                const creeps = Game.rooms[memory.room].memory.creeps;
+                creeps.splice(creeps.indexOf(name), 1);
                 continue;
             }
-            const memory = Memory.creeps[name];
+
             SVariables.rooms[memory.room].creepsByRole[memory.role].push(Game.creeps[name]);
 
             if (!memory.working) {

@@ -54,9 +54,25 @@ interface BodyExtended {
 
 interface RoomMemory {
   [name: string]: any;
+  sources: SourceData[];
+  spawner: SpwanerData;
   tasks: Dictionary<Task<any>[]>;
   essential: Dictionary<Task<any>[]>;
   taken: Dictionary<Task<any>[]>;
+  creeps: string[];
+}
+
+interface SpwanerData {
+  queue: [],
+  units: Dictionary<number>;
+}
+
+interface SourceData {
+  task: Task<any>[],
+  miners: string[],
+  id: string,
+  productivity: number,
+  queued: boolean,
 }
 
 interface SpawnMemory {
@@ -68,6 +84,10 @@ declare namespace NodeJS {
   interface Global {
     log: any;
   }
+}
+
+interface Room {
+  spawner: import("./HiveMind/Spawner/Spawner").Spawner;
 }
 
 interface Dictionary<T> {
