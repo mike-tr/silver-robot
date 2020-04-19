@@ -18,10 +18,15 @@ export class CreepEs {
             return;
         }
 
+        let cost = 0;
+        creep.body.forEach((part) => {
+            cost += BODYPART_COST[part.type];
+        })
         let creepM: CreepMemory = {
             task: {} as Task<"none">,
             role: "none",
             room: rname,
+            cost: cost,
             working: false,
         };
         if (bodyParts.attack > 0) {

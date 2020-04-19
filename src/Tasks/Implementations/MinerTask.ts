@@ -2,18 +2,14 @@ import { roles } from "HiveMind/Spawner/UnitTamplates";
 
 export interface MinerTask extends Task<"miner"> {
     sourceId: string,
-    linkId: string,
-    implementing: string,
-    harvestPos: string,
+    linkId?: string,
 }
 
 export const MinerImplementation: TaskImplementation<MinerTask> = {
     name: "miner",
     createTask(source: string) {
         return {
-            harvestPos: "",
-            linkId: "",
-            implementing: "",
+            linkId: undefined,
             sourceId: source,
             type: this.name,
             workerType: roles.miner,
@@ -21,10 +17,10 @@ export const MinerImplementation: TaskImplementation<MinerTask> = {
     },
 
     processTask(creep, task: MinerTask) {
-        const target = Game.resources[task.sourceId];
+        const target = Game.getObjectById(task.sourceId) as Source;
         creep.harvest(target);
-        if (creep.carry.energy > 30) {
-            creep.transfer(Game.structures[task.linkId], RESOURCE_ENERGY);
+        if (task.linkId && creep.carry.energy > 30) {
+            creep.transfer(Game.getObjectById(task.linkId) as Structure, RESOURCE_ENERGY);
         }
     },
 

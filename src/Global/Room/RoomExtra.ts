@@ -3,6 +3,10 @@ import { roles } from "HiveMind/Spawner/UnitTamplates";
 import { Dictionary } from "lodash";
 import { MinerImplementation } from "Tasks/Implementations/MinerTask";
 
+export function roomPosToPos(roomPos: RoomPosition): Pos {
+    return { x: roomPos.x, y: roomPos.y, roomName: roomPos.roomName };
+}
+
 export interface RoomData {
     creepsByRole: Dictionary<Creep[]>;
     idlesByRole: Dictionary<Creep[]>;

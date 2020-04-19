@@ -21,10 +21,18 @@ export function initializeRoomData(room: Room) {
         rmemory.tasks = {};
         rmemory.essential = {};
         rmemory.taken = {};
+        rmemory.creeps = [];
         for (let key in roles) {
             rmemory.essential[key] = [];
             rmemory.taken[key] = [];
             rmemory.tasks[key] = [];
+        }
+
+        for (const name in Game.creeps) {
+            const creep = Game.creeps[name];
+            if (creep.my && creep.memory.room === room.name) {
+                rmemory.creeps.push(creep.name);
+            }
         }
     }
 
@@ -53,9 +61,6 @@ export function initializeRoomData(room: Room) {
                     delete source.harvesters[name];
                     update = true;
                 }
-            }
-            if (!(source.miner in Game.creeps)) {
-
             }
             source.productivity = getSourceProductivity(source);
             if (source.productivity < 2500 && source.harvesters.length < 2 && !source.queued) {

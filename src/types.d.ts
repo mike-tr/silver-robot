@@ -6,11 +6,18 @@ interface CreepMemory {
   role: string;
   room: string;
   task: Task<any>;
+  cost: number,
   working: boolean;
 }
 
 interface Creep {
   tickData: any;
+}
+
+interface Pos {
+  x: number,
+  y: number,
+  roomName: string,
 }
 
 interface CJob {

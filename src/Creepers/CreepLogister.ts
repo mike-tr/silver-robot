@@ -2,6 +2,7 @@ import { CreepEs } from "./CreepL/CreepES";
 import { SVariables } from "Global/SVariables";
 import { Dictionary } from "lodash";
 import { roles } from "HiveMind/Spawner/UnitTamplates";
+import { InitMinerImplementation } from "Tasks/Implementations/InitMinerTask";
 
 export class CreepLogister {
     constructor() {
@@ -26,13 +27,15 @@ export class CreepLogister {
             }
 
             SVariables.rooms[memory.room].creepsByRole[memory.role].push(Game.creeps[name]);
+            const creep = Game.creeps[name];
             if (!memory.working) {
                 SVariables.rooms[memory.room].idlesByRole[memory.role].push(Game.creeps[name]);
                 if (memory.role === roles.miner) {
-
+                    memory.task = InitMinerImplementation.createTask({});
+                    memory.working = true;
                 }
             } else {
-
+                SVariables.taskRunner.processTask(creep, creep.memory.task);
             }
         }
     }

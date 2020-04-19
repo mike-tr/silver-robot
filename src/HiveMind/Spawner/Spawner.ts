@@ -55,6 +55,7 @@ export class Spawner {
                                 memory: {
                                     task: {} as Task<"none">,
                                     role: key,
+                                    cost: unit.cost,
                                     room: this.room.name,
                                     working: false,
                                 }
@@ -73,15 +74,16 @@ export class Spawner {
     }
 
     public reset() {
+        console.log("???????");
         this.data.units = {};
         this.data.totalUnits = 0;
         for (let role in roles) {
             this.data.units[role] = 0;
         }
 
-        for (const name in this.room.memory.creeps) {
+        for (const name in Memory.creeps) {
             const creep = Game.creeps[name];
-            if (creep) {
+            if (creep.memory.room === this.room.name) {
                 this.data.units[creep.memory.role]++;
                 this.data.totalUnits++;
             }

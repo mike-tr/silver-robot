@@ -6,6 +6,7 @@ import { TrasnferImplementation } from "Tasks/Implementations/TransferTask";
 import { WithdrawImplementation } from "Tasks/Implementations/WithdrawTask";
 import { Spawner } from "./Spawner/Spawner";
 import { initializeRoomData } from "Global/Room/Initializer";
+import { InitMinerImplementation } from "Tasks/Implementations/InitMinerTask";
 
 export class Hive {
     public name: string;
@@ -44,6 +45,7 @@ export class Hive {
         SVariables.taskRunner.registerTaskImplementation(HarvestImplementation);
         SVariables.taskRunner.registerTaskImplementation(TrasnferImplementation);
         SVariables.taskRunner.registerTaskImplementation(WithdrawImplementation);
+        SVariables.taskRunner.registerTaskImplementation(InitMinerImplementation);
     }
 
     public run() {
