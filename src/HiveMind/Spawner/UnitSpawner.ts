@@ -1,5 +1,3 @@
-import { Spawner } from "./Spawner";
-
 export function bodyCost(body: BodyPartConstant[]) {
     return body.reduce((cost: number, part: BodyPartConstant) => {
         return cost + BODYPART_COST[part];
@@ -14,7 +12,7 @@ export function generateUnit(energy: number, body: UnitTemplate): {
     let cbody = body.minBody;
     if (ccost < energy) {
         for (let i = 0; i < body.max; i++) {
-            let vbody = body.minBody;
+            let vbody = Object.assign([], body.minBody);
             let vcost = ccost;
             body.upgrade.forEach((part) => {
                 for (let k = 0; k < Math.floor(part.ratio * i); k++) {

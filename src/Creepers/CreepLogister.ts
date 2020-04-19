@@ -1,6 +1,7 @@
 import { CreepEs } from "./CreepL/CreepES";
 import { SVariables } from "Global/SVariables";
 import { Dictionary } from "lodash";
+import { roles } from "HiveMind/Spawner/UnitTamplates";
 
 export class CreepLogister {
     constructor() {
@@ -25,9 +26,11 @@ export class CreepLogister {
             }
 
             SVariables.rooms[memory.room].creepsByRole[memory.role].push(Game.creeps[name]);
-
             if (!memory.working) {
                 SVariables.rooms[memory.room].idlesByRole[memory.role].push(Game.creeps[name]);
+                if (memory.role === roles.miner) {
+
+                }
             } else {
 
             }

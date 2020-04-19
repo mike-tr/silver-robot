@@ -10,9 +10,11 @@ import { initializeRoomData } from "Global/Room/Initializer";
 export class Hive {
     public name: string;
     public HiveM: HiveMemory;
+    public rooms: Room[];
     constructor(hname: string) {
         this.HiveM = Memory[hname];
         this.name = hname + Game.time;
+        this.rooms = [];
         if (this.HiveM === undefined) {
             Memory[hname] = {
                 global: {
@@ -27,6 +29,7 @@ export class Hive {
         for (const name in Game.rooms) {
             const room = Game.rooms[name];
             if (room) {
+                this.rooms.push(room);
                 if (room.controller && room.controller.my) {
                     room.spawner = new Spawner(room);
                     initializeRoomData(room);
@@ -45,9 +48,8 @@ export class Hive {
 
     public run() {
         SVariables.lcreeps.getCreepsState();
-        for (const name in Game.rooms) {
-
-
+        for (const room of this.rooms) {
+            room.spawner.update();
         }
     }
 

@@ -63,14 +63,20 @@ interface RoomMemory {
 }
 
 interface SpwanerData {
-  queue: [],
+  queue: CreepSpawnRequest[],
   units: Dictionary<number>;
+  totalUnits: number,
+}
+
+interface CreepSpawnRequest {
+
 }
 
 interface SourceData {
   task: Task<any>[],
-  miners: string[],
+  harvesters: string[],
   id: string,
+  miner: string,
   productivity: number,
   queued: boolean,
 }

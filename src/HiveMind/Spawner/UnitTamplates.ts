@@ -1,5 +1,4 @@
-import { SVariables, bodyParts } from "Global/SVariables";
-import { bodyCost } from "./UnitSpawner";
+import { bodyParts } from "Global/SVariables";
 
 export const roles = {
     worker: "worker",
@@ -10,13 +9,7 @@ export const roles = {
     miner: "miner"
 }
 
-export const minUnits = {
-    worker: 2,
-    transferer: 1,
-    miners: 1,
-}
-
-const unitTemplates: {
+export const unitTemplates: {
     [index: string]: UnitTemplate,
 } = {
     miner: {
@@ -28,8 +21,8 @@ const unitTemplates: {
 
     worker: {
         type: roles.worker,
-        minBody: [bodyParts.carry, bodyParts.move, bodyParts.move, bodyParts.work],
-        upgrade: [{ part: bodyParts.work, ratio: 1 }, { part: bodyParts.carry, ratio: 0.5 }, { part: bodyParts.move, ratio: 0.5 }],
+        minBody: [bodyParts.carry, bodyParts.move, bodyParts.work, bodyParts.work],
+        upgrade: [{ part: bodyParts.work, ratio: 1.5 }, { part: bodyParts.carry, ratio: 0.75 }, { part: bodyParts.move, ratio: 1 }],
         max: 10,
     },
 

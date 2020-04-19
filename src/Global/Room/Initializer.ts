@@ -35,9 +35,10 @@ export function initializeRoomData(room: Room) {
         sources.forEach((source) => {
             const mtask = MinerImplementation.createTask(source.id);
             const sdata: SourceData = {
+                miner: "",
                 id: source.id,
                 task: [mtask],
-                miners: [],
+                harvesters: [],
                 productivity: 0,
                 queued: false,
             }
@@ -47,14 +48,17 @@ export function initializeRoomData(room: Room) {
         const sources = rmemory.sources;
         sources.forEach((source) => {
             let update = false;
-            for (const name in source.miners) {
+            for (const name in source.harvesters) {
                 if (!(name in Game.creeps)) {
-                    delete source.miners[name];
+                    delete source.harvesters[name];
                     update = true;
                 }
             }
+            if (!(source.miner in Game.creeps)) {
+
+            }
             source.productivity = getSourceProductivity(source);
-            if (source.productivity < 2500 && source.miners.length < 3 && !source.queued) {
+            if (source.productivity < 2500 && source.harvesters.length < 2 && !source.queued) {
                 const harvestInit: HarvestInitializer = {
                     sourceId: source.id,
                     stopWhenFull: true,
@@ -69,7 +73,7 @@ export function initializeRoomData(room: Room) {
 
 export function getSourceProductivity(data: SourceData) {
     let work = 0;
-    for (const name in data.miners) {
+    for (const name in data.harvesters) {
         const creep = Game.creeps[name];
         work += _.filter(creep.body, (bp) => {
             return bp.type === bodyParts.work
