@@ -1,17 +1,25 @@
 import { roles } from "HiveMind/Spawner/UnitTamplates";
+import { AddTask } from "Tasks/TaskAdder";
 
 export interface WithdrawTask extends Task<"withdraw"> {
     structureId: string,
 }
 
 export const WithdrawImplementation: TaskImplementation<WithdrawTask> = {
+    CycleId: 0,
+
     name: "withdraw",
     createTask(args: any) {
-        return {
+        this.CycleId++;
+
+        const task = {
             workerType: roles.worker,
             structureId: args.target,
             type: this.name,
+            id: this.name + Game.time + this.CycleId,
         }
+        AddTask(task);
+        return task;
     },
 
     processTask(creep, task: WithdrawTask) {

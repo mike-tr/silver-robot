@@ -5,7 +5,7 @@ interface CreepMemory {
   [name: string]: any;
   role: string;
   room: string;
-  task: Task<any>;
+  task?: string;
   cost: number,
   working: boolean;
 }
@@ -29,14 +29,13 @@ interface CJob {
 }
 
 interface Memory {
-  [name: string]: any;
+  command: HiveMemory,
   uuid: number;
   log: any;
 }
 
 interface HiveMemory {
-  cycle_tick: number;
-  global: any;
+  tasks: Dictionary<Task<any>>
 }
 
 interface FlagMemory {
@@ -63,10 +62,16 @@ interface RoomMemory {
   [name: string]: any;
   sources: SourceData[];
   spawner: SpwanerData;
-  tasks: Dictionary<Task<any>[]>;
-  essential: Dictionary<Task<any>[]>;
-  taken: Dictionary<Task<any>[]>;
+  tasks: Dictionary<string[]>;
+  essential: Dictionary<string[]>;
+  taken: Dictionary<string[]>;
   creeps: string[];
+  transferable: Dictionary<Transferable>;
+}
+
+interface Transferable {
+  structureID: string,
+  transactions: number,
 }
 
 interface SpwanerData {
@@ -80,7 +85,7 @@ interface CreepSpawnRequest {
 }
 
 interface SourceData {
-  task: Task<any>[],
+  task: string[],
   harvesters: string[],
   id: string,
   miner: string,

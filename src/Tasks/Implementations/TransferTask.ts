@@ -1,17 +1,23 @@
 import { roles } from "HiveMind/Spawner/UnitTamplates";
+import { AddTask } from "Tasks/TaskAdder";
 
 export interface TrasnferTask extends Task<"transfer"> {
     structureId: string,
 }
 
 export const TrasnferImplementation: TaskImplementation<TrasnferTask> = {
+    CycleId: 0,
     name: "transfer",
     createTask(args: any) {
-        return {
+        this.CycleId++;
+        const task: TrasnferTask = {
             workerType: roles.transferer,
             structureId: args.structureId,
             type: this.name,
+            id: this.name + Game.time + this.CycleId,
         }
+        AddTask(task);
+        return task;
     },
 
     processTask(creep, task: TrasnferTask) {
@@ -27,7 +33,7 @@ export const TrasnferImplementation: TaskImplementation<TrasnferTask> = {
                 });
             }
         } else {
-            creep.memory.task = {} as Task<"none">
+            creep.memory.task = undefined;
             creep.memory.working = false;
         }
     },

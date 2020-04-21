@@ -1,4 +1,5 @@
 import { roles } from "HiveMind/Spawner/UnitTamplates";
+import { AddTask } from "Tasks/TaskAdder";
 
 export interface MinerTask extends Task<"miner"> {
     sourceId: string,
@@ -6,14 +7,19 @@ export interface MinerTask extends Task<"miner"> {
 }
 
 export const MinerImplementation: TaskImplementation<MinerTask> = {
+    CycleId: 0,
     name: "miner",
     createTask(source: string) {
-        return {
+        this.CycleId++;
+        const task = {
             linkId: undefined,
             sourceId: source,
             type: this.name,
             workerType: roles.miner,
+            id: this.name + Game.time + this.CycleId,
         }
+        AddTask(task);
+        return task;
     },
 
     processTask(creep, task: MinerTask) {

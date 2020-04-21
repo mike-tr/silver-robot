@@ -1,4 +1,4 @@
-import { Hive } from "HiveMind/Hive";
+import { Command } from "HiveMind/Command";
 import { CreepLogister } from "Creepers/CreepLogister";
 import { Dictionary } from "lodash";
 import { RoomData } from "Global/Room/RoomExtra";
@@ -24,7 +24,7 @@ export const bodyParts = {
 }
 
 export class SVariables {
-    public static hive: Hive;
+    public static hive: Command;
     public static lcreeps: CreepLogister;
     public static taskRunner: TaskRunner;
     public static rooms: Dictionary<RoomData> = {};

@@ -8,25 +8,22 @@ import { Spawner } from "./Spawner/Spawner";
 import { initializeRoomData } from "Global/Room/Initializer";
 import { InitMinerImplementation } from "Tasks/Implementations/InitMinerTask";
 
-export class Hive {
+export class Command {
     public name: string;
-    public HiveM: HiveMemory;
+    public static memory: HiveMemory;
     public rooms: Room[];
     constructor(hname: string) {
-        this.HiveM = Memory[hname];
+        Command.memory = Memory.command;
         this.name = hname + Game.time;
         this.rooms = [];
-        if (this.HiveM === undefined) {
-            Memory[hname] = {
-                global: {
-                    tasks: {}
-                }
+        if (Command.memory === undefined) {
+            Memory.command = {
+                tasks: {},
             }
-            this.HiveM = Memory[hname];
+            Command.memory = Memory.command;
         }
 
         this.AddImplementations();
-
         for (const name in Game.rooms) {
             const room = Game.rooms[name];
             if (room) {

@@ -1,4 +1,3 @@
-import { SVariables } from "Global/SVariables";
 import { roles } from "HiveMind/Spawner/UnitTamplates";
 
 export class CreepEs {
@@ -13,20 +12,20 @@ export class CreepEs {
         });
 
         let rname = creep.room.controller && creep.room.controller.my ? creep.room.name : undefined;
-        if (rname == undefined) {
+        if (rname === undefined) {
             creep.suicide();
             return;
         }
-
         let cost = 0;
         creep.body.forEach((part) => {
             cost += BODYPART_COST[part.type];
-        })
+        });
+
         let creepM: CreepMemory = {
-            task: {} as Task<"none">,
-            role: "none",
-            room: rname,
+            task: undefined,
+            role: "",
             cost: cost,
+            room: rname,
             working: false,
         };
         if (bodyParts.attack > 0) {
@@ -39,7 +38,6 @@ export class CreepEs {
             creepM.role = roles.transferer;
         }
         Memory.creeps[creep.name] = creepM;
-
         creep.room.memory.creeps.push(creep.name);
     }
 }

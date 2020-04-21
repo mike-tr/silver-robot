@@ -48,12 +48,13 @@ export class Spawner {
                     // || (key === roles.miner && this.data.units[key] < this.room.memory.sources.length)
                     console.log(key + " : " + this.data.units[key]);
                     const unit = generateUnit(this.room.energyAvailable, unitTemplates[key]);
-                    console.log('cost : ' + unit.cost)
-                    this.spawns.forEach((spawn) => {
+                    console.log('cost : ' + unit.cost);
+
+                    for (const spawn of this.spawns) {
                         if (spawn.isActive && !spawn.spawning) {
                             const response = spawn.spawnCreep(unit.body, key + "_" + Game.time, {
                                 memory: {
-                                    task: {} as Task<"none">,
+                                    task: undefined,
                                     role: key,
                                     cost: unit.cost,
                                     room: this.room.name,
@@ -62,19 +63,19 @@ export class Spawner {
                             });
 
                             if (response === OK) {
+                                console.log("spawning : " + key);
                                 this.data.units[key]++;
                                 this.data.totalUnits++;
                                 return;
                             }
                         }
-                    });
+                    }
                 }
             }
         }
     }
 
     public reset() {
-        console.log("???????");
         this.data.units = {};
         this.data.totalUnits = 0;
         for (let role in roles) {

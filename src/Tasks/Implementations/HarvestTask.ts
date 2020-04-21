@@ -1,4 +1,5 @@
 import { roles } from "HiveMind/Spawner/UnitTamplates";
+import { AddTask } from "Tasks/TaskAdder";
 
 export interface HarvestTask extends Task<"harvest"> {
     sourceId: string,
@@ -11,14 +12,19 @@ export interface HarvestInitializer extends TaskInitializer<HarvestTask> {
 }
 
 export const HarvestImplementation: TaskImplementation<HarvestTask> = {
+    CycleId: 0,
     name: "harvest",
     createTask(args: HarvestInitializer) {
-        return {
+        this.CycleId++;
+        const task = {
             workerType: roles.miner,
             sourceId: args.sourceId,
             stopWhenFull: args.stopWhenFull,
             type: this.name,
+            id: this.name + Game.time + this.CycleId,
         }
+        AddTask(task);
+        return task;
     },
 
     processTask(creep, task: HarvestTask) {

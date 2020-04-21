@@ -1,13 +1,14 @@
 import { ErrorMapper } from "utils/ErrorMapper";
-import { Hive } from "HiveMind/Hive";
+import { Command } from "HiveMind/Command";
 import { CreepLogister } from "Creepers/CreepLogister"
 import { SVariables } from "Global/SVariables";
 
 export class Main {
   public static run() {
+    CreepLogister.updateCreeps();
     if (SVariables.hive === undefined) {
-      SVariables.hive = new Hive("main");
       SVariables.lcreeps = new CreepLogister();
+      SVariables.hive = new Command("main");
     }
     SVariables.hive.run();
     console.log(`Current game tick is ${Game.time}`);

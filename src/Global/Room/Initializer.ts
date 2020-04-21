@@ -41,11 +41,10 @@ export function initializeRoomData(room: Room) {
         rmemory.sources = [];
         const sources = room.find(FIND_SOURCES);
         sources.forEach((source) => {
-            const mtask = MinerImplementation.createTask(source.id);
             const sdata: SourceData = {
                 miner: "",
                 id: source.id,
-                task: [mtask],
+                task: [],
                 harvesters: [],
                 productivity: 0,
                 queued: false,
@@ -68,8 +67,9 @@ export function initializeRoomData(room: Room) {
                     sourceId: source.id,
                     stopWhenFull: true,
                 }
-                const harvest = HarvestImplementation.createTask(harvestInit);
-                rmemory.tasks[roles.worker].unshift(harvest);
+                console.log("????????? wtf");
+                const harvestTask = HarvestImplementation.createTask(harvestInit);
+                rmemory.tasks[roles.worker].unshift(harvestTask.id);
                 source.queued = true;
             }
         })
