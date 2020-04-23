@@ -1,7 +1,7 @@
 import { roles } from "HiveMind/Spawner/UnitTamplates";
 import { roomPosToPos } from "Global/Room/RoomExtra";
-import { MinerImplementation } from "./MinerTask";
-import { AddTask } from "Tasks/TaskAdder";
+import { MinerImplementation } from "../Implementations/MinerTask";
+import { AddTask, RemoveTask } from "Tasks/TaskAdder";
 
 export interface InitMinerTask extends Task<"iminer"> {
     sourceId?: string,
@@ -19,9 +19,15 @@ export const InitMinerImplementation: TaskImplementation<InitMinerTask> = {
             workerType: roles.miner,
             pos: {} as Pos,
             id: this.name + Game.time + this.CycleId,
+            creep: "",
+            tick: Game.time,
         }
         AddTask(task);
         return task;
+    },
+
+    taskRemoval(task) {
+
     },
 
     processTask(creep, task: InitMinerTask) {
@@ -32,7 +38,9 @@ export const InitMinerImplementation: TaskImplementation<InitMinerTask> = {
             if (range > 0) {
                 creep.moveTo(task.pos.x, task.pos.y, { reusePath: 15 })
             } else {
-                const mtask = MinerImplementation.createTask(task.sourceId);
+                const mtask = MinerImplementation.createTask({ source: task.sourceId, creep: creep.name });
+                RemoveTask(task);
+                console.log(JSON.stringify(mtask));
                 creep.memory.task = mtask.id;
             }
             return;

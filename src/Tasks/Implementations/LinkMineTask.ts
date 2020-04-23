@@ -16,9 +16,15 @@ export const LinkMinerImplementation: TaskImplementation<LinkMinerTask> = {
             sourceId: args.source,
             type: this.name,
             id: this.name + Game.time + this.CycleId,
+            creep: undefined,
+            tick: Game.time,
         }
         AddTask(task);
         return task;
+    },
+
+    taskRemoval(task) {
+
     },
 
     processTask(creep, task: LinkMinerTask) {

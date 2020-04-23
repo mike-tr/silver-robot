@@ -7,6 +7,10 @@ export function roomPosToPos(roomPos: RoomPosition): Pos {
     return { x: roomPos.x, y: roomPos.y, roomName: roomPos.roomName };
 }
 
+export function getStructureData(structure: Structure): TStructure {
+    return structure.room.memory.transferables.structures[structure.id];
+}
+
 export interface RoomData {
     creepsByRole: Dictionary<Creep[]>;
     idlesByRole: Dictionary<Creep[]>;

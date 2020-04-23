@@ -44,7 +44,7 @@ export function initializeRoomData(room: Room) {
             const sdata: SourceData = {
                 miner: "",
                 id: source.id,
-                task: [],
+                tasks: {},
                 harvesters: [],
                 productivity: 0,
                 queued: false,

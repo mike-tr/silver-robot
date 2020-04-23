@@ -1,5 +1,5 @@
 import { roles } from "HiveMind/Spawner/UnitTamplates";
-import { AddTask } from "Tasks/TaskAdder";
+import { AddTask, RemoveTask } from "Tasks/TaskAdder";
 
 export interface HarvestTask extends Task<"harvest"> {
     sourceId: string,
@@ -22,13 +22,19 @@ export const HarvestImplementation: TaskImplementation<HarvestTask> = {
             stopWhenFull: args.stopWhenFull,
             type: this.name,
             id: this.name + Game.time + this.CycleId,
+            creep: undefined,
+            tick: Game.time,
         }
         AddTask(task);
         return task;
     },
 
+    taskRemoval(task) {
+
+    },
+
     processTask(creep, task: HarvestTask) {
-        const target = Game.resources[task.sourceId];
+        const target = Game.getObjectById(task.sourceId) as Source;
         const response = creep.harvest(target);
         if (response === ERR_NOT_IN_RANGE) {
             creep.moveTo(target, {
@@ -39,7 +45,8 @@ export const HarvestImplementation: TaskImplementation<HarvestTask> = {
             });
         }
 
-        if (creep.carry.energy >= creep.carryCapacity) {
+        if (task.stopWhenFull && creep.carry.energy >= creep.carryCapacity) {
+            RemoveTask(task);
 
         }
     },

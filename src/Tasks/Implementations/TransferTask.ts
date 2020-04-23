@@ -1,8 +1,11 @@
 import { roles } from "HiveMind/Spawner/UnitTamplates";
-import { AddTask } from "Tasks/TaskAdder";
+import { AddTask, RemoveTask } from "Tasks/TaskAdder";
+import { Command } from "HiveMind/Command";
+import { getStructureData } from "Global/Room/RoomExtra";
 
 export interface TrasnferTask extends Task<"transfer"> {
     structureId: string,
+    amount: number,
 }
 
 export const TrasnferImplementation: TaskImplementation<TrasnferTask> = {
@@ -15,9 +18,25 @@ export const TrasnferImplementation: TaskImplementation<TrasnferTask> = {
             structureId: args.structureId,
             type: this.name,
             id: this.name + Game.time + this.CycleId,
+            creep: args.creep,
+            tick: Game.time,
+            amount: args.amount,
         }
+        const sd = getStructureData(Game.structures[task.structureId]);
+        sd.transactions += task.amount;
+        sd.tasks[task.structureId] = task.structureId;
+
         AddTask(task);
         return task;
+    },
+
+    taskRemoval(task: TrasnferTask) {
+        const target = Game.structures[task.structureId];
+        if (target) {
+            const sd = getStructureData(target);
+            sd.transactions -= task.amount;
+            delete sd.tasks[task.id];
+        }
     },
 
     processTask(creep, task: TrasnferTask) {
@@ -33,6 +52,7 @@ export const TrasnferImplementation: TaskImplementation<TrasnferTask> = {
                 });
             }
         } else {
+            RemoveTask(task);
             creep.memory.task = undefined;
             creep.memory.working = false;
         }

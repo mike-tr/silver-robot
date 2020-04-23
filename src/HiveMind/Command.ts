@@ -6,21 +6,21 @@ import { TrasnferImplementation } from "Tasks/Implementations/TransferTask";
 import { WithdrawImplementation } from "Tasks/Implementations/WithdrawTask";
 import { Spawner } from "./Spawner/Spawner";
 import { initializeRoomData } from "Global/Room/Initializer";
-import { InitMinerImplementation } from "Tasks/Implementations/InitMinerTask";
+import { InitMinerImplementation } from "Tasks/TaskInitializer/InitMinerTask";
+import { populateTransferable } from "Global/Room/GetTransferable";
+import { InitTrasnferImplementation } from "Tasks/TaskInitializer/InitTransferTask";
+import { TaskRemoval } from "Tasks/TaskAdder";
 
 export class Command {
     public name: string;
-    public static memory: HiveMemory;
     public rooms: Room[];
     constructor(hname: string) {
-        Command.memory = Memory.command;
         this.name = hname + Game.time;
         this.rooms = [];
-        if (Command.memory === undefined) {
+        if (!Memory.command) {
             Memory.command = {
                 tasks: {},
             }
-            Command.memory = Memory.command;
         }
 
         this.AddImplementations();
@@ -31,6 +31,7 @@ export class Command {
                 if (room.controller && room.controller.my) {
                     room.spawner = new Spawner(room);
                     initializeRoomData(room);
+                    populateTransferable(room);
                 }
             }
         }
@@ -43,6 +44,9 @@ export class Command {
         SVariables.taskRunner.registerTaskImplementation(TrasnferImplementation);
         SVariables.taskRunner.registerTaskImplementation(WithdrawImplementation);
         SVariables.taskRunner.registerTaskImplementation(InitMinerImplementation);
+        SVariables.taskRunner.registerTaskImplementation(InitTrasnferImplementation);
+
+        TaskRemoval();
     }
 
     public run() {

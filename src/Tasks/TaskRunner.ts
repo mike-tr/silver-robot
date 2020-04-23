@@ -12,4 +12,12 @@ export class TaskRunner {
             throw Error(`Unknown task type "${task.type}"`);
         }
     }
+
+    public removeTask(task: Task<any>) {
+        if (this.implementations[task.type]) {
+            return this.implementations[task.type].taskRemoval(task);
+        } else {
+            throw Error(`Unknown task type "${task.type}"`);
+        }
+    }
 }

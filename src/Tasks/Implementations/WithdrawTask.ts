@@ -17,9 +17,15 @@ export const WithdrawImplementation: TaskImplementation<WithdrawTask> = {
             structureId: args.target,
             type: this.name,
             id: this.name + Game.time + this.CycleId,
+            creep: undefined,
+            tick: Game.time,
         }
         AddTask(task);
         return task;
+    },
+
+    taskRemoval(task) {
+
     },
 
     processTask(creep, task: WithdrawTask) {

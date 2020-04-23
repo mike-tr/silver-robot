@@ -66,12 +66,18 @@ interface RoomMemory {
   essential: Dictionary<string[]>;
   taken: Dictionary<string[]>;
   creeps: string[];
-  transferable: Dictionary<Transferable>;
+  transferables: Transferables;
 }
 
-interface Transferable {
+interface Transferables {
+  structures: Dictionary<TStructure>;
+  update: number,
+}
+
+interface TStructure {
   structureID: string,
   transactions: number,
+  tasks: Dictionary<string>,
 }
 
 interface SpwanerData {
@@ -85,7 +91,7 @@ interface CreepSpawnRequest {
 }
 
 interface SourceData {
-  task: string[],
+  tasks: Dictionary<string>,
   harvesters: string[],
   id: string,
   miner: string,
